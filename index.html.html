@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MWB Check for Understanding: Integration by Substitution</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- MathJax Configuration -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      },
+      startup: {
+        typeset: false
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #f0f4ff 0%, #f8fafc 50%, #eef2ff 100%);
+      --card-bg: #ffffff;
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --primary-light: #eef2ff;
+      --secondary: #0ea5e9;
+      --success: #10b981;
+      --success-bg: #ecfdf5;
+      --success-border: #059669;
+      --warning: #f59e0b;
+      --warning-bg: #fffbeb;
+      --danger: #ef4444;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --border-color: #e2e8f0;
+      --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.06);
+      --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.08);
+      --radius-md: 12px;
+      --radius-lg: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      min-height: 100vh;
+      width: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-main);
+    }
+
+    .app-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 12px 20px 18px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    /* Header / Top Navigation */
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--card-bg);
+      padding: 8px 16px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-color);
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-badge {
+      background: linear-gradient(135deg, #4f46e5, #0ea5e9);
+      color: #fff;
+      font-weight: 800;
+      font-size: 0.8rem;
+      padding: 5px 10px;
+      border-radius: 8px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .brand-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .progress-pills {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: #f8fafc;
+      color: var(--text-muted);
+      font-weight: 700;
+      font-size: 0.82rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+    }
+
+    .pill:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    .pill.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+      box-shadow: 0 2px 6px rgba(79, 70, 229, 0.35);
+    }
+
+    .pill.completed {
+      background: #d1fae5;
+      border-color: #10b981;
+      color: #065f46;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-icon {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #f1f5f9;
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-icon:hover {
+      background: #e2e8f0;
+    }
+
+    /* Main Content Area */
+    .main-stage {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      justify-content: flex-start;
+    }
+
+    /* Question Panel */
+    .question-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: 14px 22px;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border-color);
+      position: relative;
+    }
+
+    .question-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .q-tag-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .q-number-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--primary);
+      background: var(--primary-light);
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+
+    .q-focus-badge {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #0369a1;
+      background: #e0f2fe;
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+
+    .difficulty-badge {
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+
+    .diff-foundation {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    .diff-developing {
+      background: #fef3c7;
+      color: #b45309;
+    }
+
+    .diff-exam {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+    .diff-challenge {
+      background: #f3e8ff;
+      color: #7e22ce;
+    }
+
+    .question-prompt {
+      font-size: 1.22rem;
+      font-weight: 600;
+      line-height: 1.45;
+      color: var(--text-main);
+    }
+
+    /* Options Grid */
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .option-card {
+      background: var(--card-bg);
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      box-shadow: var(--shadow-sm);
+      min-height: 68px;
+      position: relative;
+    }
+
+    .option-card:hover {
+      border-color: #94a3b8;
+      transform: translateY(-1px);
+    }
+
+    .option-card.selected {
+      border-color: var(--primary);
+      background: #f5f7ff;
+    }
+
+    .option-letter {
+      width: 38px;
+      height: 38px;
+      min-width: 38px;
+      border-radius: 10px;
+      background: #f1f5f9;
+      color: var(--text-main);
+      font-weight: 800;
+      font-size: 1.05rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #cbd5e1;
+      transition: all 0.18s ease;
+    }
+
+    .option-card.selected .option-letter {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+
+    .option-math {
+      font-size: 1.12rem;
+      font-weight: 500;
+      color: var(--text-main);
+      flex: 1;
+      overflow-x: auto;
+    }
+
+    /* Correct Answer Revealed State */
+    .option-card.correct-revealed {
+      background: var(--success-bg) !important;
+      border-color: var(--success-border) !important;
+      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.22);
+    }
+
+    .option-card.correct-revealed .option-letter {
+      background: var(--success) !important;
+      color: #ffffff !important;
+      border-color: var(--success-border) !important;
+    }
+
+    .correct-badge {
+      display: none;
+      background: var(--success);
+      color: #ffffff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 9px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    .option-card.correct-revealed .correct-badge {
+      display: inline-block;
+    }
+
+    .option-card.dimmed {
+      opacity: 0.72;
+    }
+
+    /* Worked Solution Panel (Compact 2-Column Layout to Fit 1 Laptop Screen) */
+    .solution-panel {
+      display: none;
+      background: #ffffff;
+      border: 2px solid #10b981;
+      border-radius: var(--radius-lg);
+      padding: 12px 18px;
+      box-shadow: var(--shadow-md);
+      animation: fadeSlideIn 0.22s ease-out;
+    }
+
+    .solution-panel.visible {
+      display: block;
+    }
+
+    @keyframes fadeSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .solution-grid {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .solution-col-title {
+      font-size: 0.82rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .solution-col-title.steps-title {
+      color: #047857;
+    }
+
+    .solution-col-title.misconception-title {
+      color: #b45309;
+    }
+
+    .steps-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .steps-list li {
+      font-size: 0.92rem;
+      line-height: 1.4;
+      color: var(--text-main);
+      background: #f0fdf4;
+      border-left: 3px solid #10b981;
+      padding: 5px 10px;
+      border-radius: 0 6px 6px 0;
+    }
+
+    .misconception-box {
+      background: var(--warning-bg);
+      border: 1px solid #fde68a;
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 0.86rem;
+      line-height: 1.4;
+      color: #78350f;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .misconception-item {
+      display: flex;
+      gap: 6px;
+      align-items: baseline;
+    }
+
+    .misconception-tag {
+      font-weight: 800;
+      color: #92400e;
+      min-width: 22px;
+    }
+
+    .diagram-wrapper {
+      margin-top: 6px;
+      background: #f8fafc;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Footer Controls */
+    .bottom-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--card-bg);
+      padding: 10px 18px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-color);
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .nav-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn {
+      padding: 9px 18px;
+      border-radius: 10px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      background: #f1f5f9;
+      color: var(--text-main);
+      border: 1px solid #cbd5e1;
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background: #e2e8f0;
+    }
+
+    .btn-reveal {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+      min-width: 165px;
+      justify-content: center;
+    }
+
+    .btn-reveal:hover {
+      background: linear-gradient(135deg, #059669, #047857);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #4f46e5, #4338ca);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: linear-gradient(135deg, #4338ca, #3730a3);
+      transform: translateY(-1px);
+    }
+
+    .shortcut-hint {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .kbd {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+      padding: 1px 5px;
+      font-family: monospace;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    @media (max-width: 900px) {
+      .options-grid {
+        grid-template-columns: 1fr;
+      }
+      .solution-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Top Bar -->
+    <header class="top-bar">
+      <div class="brand">
+        <span class="brand-badge">MWB Check</span>
+        <span class="brand-title">Integration by Substitution (Ex 11E)</span>
+      </div>
+
+      <div class="progress-pills" id="progressPills" aria-label="Question Navigation"></div>
+
+      <div class="top-actions">
+        <button class="btn-icon" id="fullscreenBtn" title="Toggle Full Screen (F)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+          </svg>
+          <span id="fullscreenText">Full Screen</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Question + Options + Solution Stage -->
+    <main class="main-stage">
+      <!-- Question Card -->
+      <section class="question-card">
+        <div class="question-meta">
+          <div class="q-tag-group">
+            <span class="q-number-label" id="qNumberLabel">Question 1 of 10</span>
+            <span class="q-focus-badge" id="qFocusBadge">Process Step: Transforming the Integrand</span>
+          </div>
+          <span class="difficulty-badge diff-foundation" id="qDifficultyBadge">Level 1 • Foundation</span>
+        </div>
+        <div class="question-prompt" id="questionPrompt"></div>
+      </section>
+
+      <!-- Multiple Choice Options (A, B, C, D) -->
+      <section class="options-grid" id="optionsGrid"></section>
+
+      <!-- Worked Solution Panel -->
+      <section class="solution-panel" id="solutionPanel">
+        <div class="solution-grid">
+          <div>
+            <div class="solution-col-title steps-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              Worked Solution
+            </div>
+            <ul class="steps-list" id="solutionSteps"></ul>
+          </div>
+
+          <div>
+            <div class="solution-col-title misconception-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              Diagnostic Misconceptions (Distractors)
+            </div>
+            <div class="misconception-box" id="misconceptionBox"></div>
+            <div class="diagram-wrapper" id="diagramWrapper" style="display: none;"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Bottom Controls -->
+    <footer class="bottom-bar">
+      <div class="nav-group">
+        <button class="btn btn-secondary" id="prevBtn">
+          ← Previous
+        </button>
+        <span class="shortcut-hint">
+          Keys: <span class="kbd">Space</span> Reveal • <span class="kbd">←</span> <span class="kbd">→</span> Navigate • <span class="kbd">F</span> Full Screen
+        </span>
+      </div>
+
+      <div class="nav-group">
+        <button class="btn btn-reveal" id="revealBtn">
+          Reveal Answer
+        </button>
+        <button class="btn btn-primary" id="nextBtn">
+          Next →
+        </button>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        number: 1,
+        focus: "Process Step • Transforming the Integrand",
+        difficulty: "Level 1 • Foundation",
+        diffClass: "diff-foundation",
+        prompt: "Using the substitution $u = 1 + x$, which expression correctly transforms $\\displaystyle\\int x\\sqrt{1+x}\\,dx$ into an integral in terms of $u$?",
+        options: {
+          A: "$\\displaystyle\\int \\left(u^{\\frac{3}{2}} + u^{\\frac{1}{2}}\\right)\\,du$",
+          B: "$\\displaystyle\\int \\left(u^{\\frac{3}{2}} - u^{\\frac{1}{2}}\\right)\\,du$",
+          C: "$\\displaystyle\\int x u^{\\frac{1}{2}}\\,du$",
+          D: "$\\displaystyle\\int \\left(u^2 - u^{\\frac{1}{2}}\\right)\\,du$"
+        },
+        correct: "B",
+        steps: [
+          "Rearrange the substitution for $x$: $u = 1 + x \\implies x = u - 1$, and differentiate: $\\frac{du}{dx} = 1 \\implies dx = du$.",
+          "Substitute $x = u - 1$, $\\sqrt{1+x} = u^{\\frac{1}{2}}$, and $dx = du$ into the integral: $\\int (u - 1)u^{\\frac{1}{2}}\\,du$.",
+          "Expand brackets by adding indices ($u^1 \\cdot u^{\\frac{1}{2}} = u^{\\frac{3}{2}}$): $\\int \\left(u^{\\frac{3}{2}} - u^{\\frac{1}{2}}\\right)\\,du$."
+        ],
+        misconceptions: [
+          { opt: "A", text: "Rearranging $u = 1 + x$ as $x = u + 1$ instead of $x = u - 1$." },
+          { opt: "C", text: "Incomplete substitution: forgetting to replace the factor of $x$ in terms of $u$." },
+          { opt: "D", text: "Index law error: multiplying $u^1 \\times u^{\\frac{1}{2}}$ to get $u^2$ instead of $u^{\\frac{3}{2}}$." }
+        ]
+      },
+      {
+        number: 2,
+        focus: "Final Answer • Integrating & Substituting Back",
+        difficulty: "Level 2 • Foundation",
+        diffClass: "diff-foundation",
+        prompt: "Using the substitution $u = 2 + x$, the integral $\\displaystyle\\int x(2+x)^3\\,dx$ transforms into $\\displaystyle\\int (u^4 - 2u^3)\\,du$. Find $\\displaystyle\\int x(2+x)^3\\,dx$.",
+        options: {
+          A: "$\\dfrac{1}{5}(2+x)^5 - \\dfrac{1}{2}(2+x)^4 + c$",
+          B: "$\\dfrac{1}{5}u^5 - \\dfrac{1}{2}u^4 + c$",
+          C: "$\\dfrac{1}{5}(2+x)^5 - 2(2+x)^4 + c$",
+          D: "$4(2+x)^3 - 6(2+x)^2 + c$"
+        },
+        correct: "A",
+        steps: [
+          "Integrate each term with respect to $u$: $\\int (u^4 - 2u^3)\\,du = \\frac{u^5}{5} - \\frac{2u^4}{4} + c = \\frac{1}{5}u^5 - \\frac{1}{2}u^4 + c$.",
+          "Substitute $u = 2 + x$ back into the expression so the final answer is a function of $x$: $\\frac{1}{5}(2+x)^5 - \\frac{1}{2}(2+x)^4 + c$."
+        ],
+        misconceptions: [
+          { opt: "B", text: "Stopping after integrating in $u$ and forgetting to substitute $u = 2 + x$ back in." },
+          { opt: "C", text: "Forgetting to divide the second term by the new power $4$." },
+          { opt: "D", text: "Differentiating $u^4 - 2u^3$ instead of integrating." }
+        ]
+      },
+      {
+        number: 3,
+        focus: "Process Step • Non-Unit Linear Coefficient",
+        difficulty: "Level 3 • Developing",
+        diffClass: "diff-developing",
+        prompt: "Using the substitution $u = 3 + 2x$, express $\\displaystyle\\int x(3+2x)^5\\,dx$ as an integral in terms of $u$.",
+        options: {
+          A: "$\\dfrac{1}{2}\\displaystyle\\int (u^6 - 3u^5)\\,du$",
+          B: "$\\displaystyle\\int (u^6 - 3u^5)\\,du$",
+          C: "$\\dfrac{1}{4}\\displaystyle\\int (u^6 - 3u^5)\\,du$",
+          D: "$\\dfrac{1}{4}\\displaystyle\\int (u^6 + 3u^5)\\,du$"
+        },
+        correct: "C",
+        steps: [
+          "Rearrange for $x$: $u = 3 + 2x \\implies 2x = u - 3 \\implies x = \\frac{u - 3}{2}$.",
+          "Differentiate to relate $dx$ and $du$: $\\frac{du}{dx} = 2 \\implies dx = \\frac{1}{2}\\,du$.",
+          "Substitute both: $\\int \\left(\\frac{u - 3}{2}\\right) u^5 \\left(\\frac{1}{2}\\,du\\right) = \\frac{1}{4}\\int (u^6 - 3u^5)\\,du$."
+        ],
+        misconceptions: [
+          { opt: "A", text: "Only dividing by $2$ once (forgetting either $dx = \\frac{1}{2}\\,du$ or the $\\frac{1}{2}$ in $x = \\frac{u-3}{2}$)." },
+          { opt: "B", text: "Ignoring both factors of $\\frac{1}{2}$ (treating $dx = du$ and $x = u - 3$)." },
+          { opt: "D", text: "Sign error when rearranging $u = 3 + 2x$ as $x = \\frac{u + 3}{2}$." }
+        ]
+      },
+      {
+        number: 4,
+        focus: "Process Step • Changing Limits & Reversing Bounds",
+        difficulty: "Level 4 • Developing",
+        diffClass: "diff-developing",
+        prompt: "Using the substitution $u = \\cos x$, which definite integral in terms of $u$ is equivalent to $\\displaystyle\\int_0^{\\frac{\\pi}{2}} \\sin x\\sqrt{3\\cos x + 1}\\,dx$?",
+        options: {
+          A: "$\\displaystyle\\int_0^{\\frac{\\pi}{2}} \\sqrt{3u + 1}\\,du$",
+          B: "$-\\displaystyle\\int_0^1 \\sqrt{3u + 1}\\,du$",
+          C: "$\\displaystyle\\int_1^0 \\sqrt{3u + 1}\\,du$",
+          D: "$\\displaystyle\\int_0^1 \\sqrt{3u + 1}\\,du$"
+        },
+        correct: "D",
+        steps: [
+          "Differentiate the substitution: $u = \\cos x \\implies \\frac{du}{dx} = -\\sin x \\implies \\sin x\\,dx = -du$.",
+          "Convert the $x$-limits into $u$-limits: when $x = 0, u = \\cos 0 = 1$; when $x = \\frac{\\pi}{2}, u = \\cos\\frac{\\pi}{2} = 0$.",
+          "Substitute and use $-\\int_1^0 f(u)\\,du = \\int_0^1 f(u)\\,du$: $\\int_1^0 -\\sqrt{3u + 1}\\,du = \\int_0^1 \\sqrt{3u + 1}\\,du$."
+        ],
+        misconceptions: [
+          { opt: "A", text: "Leaving the original $x$-limits ($0$ and $\\frac{\\pi}{2}$) on a $du$ integral." },
+          { opt: "B", text: "Swapping the limits to $\\int_0^1$ while still keeping the negative sign outside." },
+          { opt: "C", text: "Changing limits correctly to $\\int_1^0$, but forgetting that $\\frac{d}{dx}(\\cos x) = -\\sin x$." }
+        ]
+      },
+      {
+        number: 5,
+        focus: "Process Step • Trigonometric Identity with Substitution",
+        difficulty: "Level 5 • Developing",
+        diffClass: "diff-developing",
+        prompt: "Using the substitution $u = \\cos x$, transform $\\displaystyle\\int_0^{\\frac{\\pi}{3}} \\sin^3 x \\cos^2 x\\,dx$ into a definite integral in terms of $u$.",
+        options: {
+          A: "$\\displaystyle\\int_{\\frac{1}{2}}^1 (u^2 - u^4)\\,du$",
+          B: "$\\displaystyle\\int_{\\frac{1}{2}}^1 (u^4 - u^2)\\,du$",
+          C: "$\\displaystyle\\int_{\\frac{\\sqrt{3}}{2}}^1 (u^2 - u^4)\\,du$",
+          D: "$\\displaystyle\\int_{\\frac{1}{2}}^1 (u^2 - u^5)\\,du$"
+        },
+        correct: "A",
+        steps: [
+          "Rewrite $\\sin^3 x = \\sin x(1 - \\cos^2 x) = \\sin x(1 - u^2)$, and use $\\sin x\\,dx = -du$.",
+          "Change the limits: $x = 0 \\implies u = \\cos 0 = 1$; $x = \\frac{\\pi}{3} \\implies u = \\cos\\frac{\\pi}{3} = \\frac{1}{2}$.",
+          "Substitute and flip limits using the minus sign: $\\int_1^{\\frac{1}{2}} -(1 - u^2)u^2\\,du = \\int_{\\frac{1}{2}}^1 (u^2 - u^4)\\,du$."
+        ],
+        misconceptions: [
+          { opt: "B", text: "Forgetting the negative sign from $du = -\\sin x\\,dx$ when flipping the limits." },
+          { opt: "C", text: "Evaluating $\\cos\\left(\\frac{\\pi}{3}\\right)$ as $\\frac{\\sqrt{3}}{2}$ instead of $\\frac{1}{2}$." },
+          { opt: "D", text: "Invalid identity: replacing $\\sin^3 x$ directly with $1 - \\cos^3 x$." }
+        ]
+      },
+      {
+        number: 6,
+        focus: "Process Step • Radical Substitution $u = \\sqrt{x}$",
+        difficulty: "Level 6 • Exam Standard",
+        diffClass: "diff-exam",
+        prompt: "Using the substitution $u = \\sqrt{x}$, transform $\\displaystyle\\int_1^4 \\frac{1}{\\sqrt{x}(4x - 1)}\\,dx$ into a definite integral in terms of $u$.",
+        options: {
+          A: "$\\displaystyle\\int_1^2 \\frac{1}{2(4u^2 - 1)}\\,du$",
+          B: "$\\displaystyle\\int_1^2 \\frac{2}{4u^2 - 1}\\,du$",
+          C: "$\\displaystyle\\int_1^4 \\frac{2}{4u^2 - 1}\\,du$",
+          D: "$\\displaystyle\\int_1^2 \\frac{2}{4u - 1}\\,du$"
+        },
+        correct: "B",
+        steps: [
+          "Square both sides: $u = \\sqrt{x} \\implies x = u^2$, so $\\frac{dx}{du} = 2u \\implies dx = 2u\\,du$.",
+          "Change limits: when $x = 1, u = \\sqrt{1} = 1$; when $x = 4, u = \\sqrt{4} = 2$.",
+          "Substitute and cancel $u$: $\\int_1^2 \\frac{1}{u(4u^2 - 1)} \\cdot 2u\\,du = \\int_1^2 \\frac{2}{4u^2 - 1}\\,du$."
+        ],
+        misconceptions: [
+          { opt: "A", text: "Rearranging $\\frac{du}{dx} = \\frac{1}{2\\sqrt{x}}$ as $dx = \\frac{1}{2}\\sqrt{x}\\,du$ instead of $dx = 2\\sqrt{x}\\,du$." },
+          { opt: "C", text: "Forgetting to square-root the original $x$-limits ($1$ and $4$)." },
+          { opt: "D", text: "Replacing $4x - 1$ with $4u - 1$ instead of $4u^2 - 1$." }
+        ]
+      },
+      {
+        number: 7,
+        focus: "Final Exact Value • Implicit Substitution $u^2 = 4x + 1$",
+        difficulty: "Level 7 • Exam Standard",
+        diffClass: "diff-exam",
+        prompt: "Using the substitution $u^2 = 4x + 1$, find the exact value of $\\displaystyle\\int_6^{20} \\frac{8x}{\\sqrt{4x + 1}}\\,dx$.",
+        options: {
+          A: "$\\dfrac{604}{3}$",
+          B: "$\\dfrac{592}{3}$",
+          C: "$\\dfrac{616}{3}$",
+          D: "$\\dfrac{1184}{3}$"
+        },
+        correct: "B",
+        steps: [
+          "Differentiate $u^2 = 4x + 1$: $2u\\frac{du}{dx} = 4 \\implies dx = \\frac{1}{2}u\\,du$. Also $4x = u^2 - 1 \\implies 8x = 2(u^2 - 1)$.",
+          "Change limits ($u > 0$): $x = 6 \\implies u = \\sqrt{25} = 5$; $x = 20 \\implies u = \\sqrt{81} = 9$.",
+          "Evaluate: $\\int_5^9 \\frac{2(u^2 - 1)}{u} \\cdot \\frac{1}{2}u\\,du = \\int_5^9 (u^2 - 1)\\,du = \\left[\\frac{u^3}{3} - u\\right]_5^9 = (243 - 9) - \\left(\\frac{125}{3} - 5\\right) = \\frac{592}{3}$."
+        ],
+        misconceptions: [
+          { opt: "A", text: "Integrating only $u^2$ (forgetting the $-1$ when rearranging $u^2 = 4x + 1$)." },
+          { opt: "C", text: "Rearranging $u^2 = 4x + 1$ as $4x = u^2 + 1$, giving $\\int_5^9 (u^2 + 1)\\,du = \\frac{616}{3}$." },
+          { opt: "D", text: "Factor of $2$ error in $dx$, leading to $2\\int_5^9 (u^2 - 1)\\,du = \\frac{1184}{3}$." }
+        ]
+      },
+      {
+        number: 8,
+        focus: "Final Exact Value • Choosing a Substitution & Double Angle",
+        difficulty: "Level 8 • Exam Standard",
+        diffClass: "diff-exam",
+        prompt: "By first applying an identity for $\\sin 2\\theta$ and choosing a suitable substitution, find the exact value of $\\displaystyle\\int_0^{\\frac{\\pi}{2}} \\frac{\\sin 2\\theta}{1 + \\cos\\theta}\\,d\\theta$.",
+        options: {
+          A: "$1 - \\ln 2$",
+          B: "$2 + 2\\ln 2$",
+          C: "$2 - 2\\ln 2$",
+          D: "$2\\ln 2 - 2$"
+        },
+        correct: "C",
+        steps: [
+          "Write $\\sin 2\\theta \\equiv 2\\sin\\theta\\cos\\theta$. Let $u = 1 + \\cos\\theta \\implies \\cos\\theta = u - 1$ and $\\sin\\theta\\,d\\theta = -du$.",
+          "Change limits: $\\theta = 0 \\implies u = 2$; $\\theta = \\frac{\\pi}{2} \\implies u = 1$.",
+          "Integrate: $\\int_2^1 \\frac{2(u - 1)}{u}(-du) = \\int_1^2 \\left(2 - \\frac{2}{u}\\right)\\,du = \\left[2u - 2\\ln|u|\\right]_1^2 = (4 - 2\\ln 2) - (2 - 0) = 2 - 2\\ln 2$."
+        ],
+        misconceptions: [
+          { opt: "A", text: "Using $\\sin 2\\theta = \\sin\\theta\\cos\\theta$ (missing the factor of $2$)." },
+          { opt: "B", text: "Sign error when splitting $\\frac{u - 1}{u}$ into $1 + \\frac{1}{u}$ instead of $1 - \\frac{1}{u}$." },
+          { opt: "D", text: "Forgetting the minus sign from $du = -\\sin\\theta\\,d\\theta$, giving the negative of the answer." }
+        ]
+      },
+      {
+        number: 9,
+        focus: "Process Step • Exponential Substitution $u^2 = e^x - 2$",
+        difficulty: "Level 9 • Exam Problem Solving",
+        diffClass: "diff-exam",
+        prompt: "Using the substitution $u^2 = e^x - 2$, which definite integral in terms of $u$ is equivalent to $\\displaystyle\\int_{\\ln 3}^{\\ln 4} \\frac{e^{4x}}{e^x - 2}\\,dx$?",
+        options: {
+          A: "$\\displaystyle\\int_1^{\\sqrt{2}} \\frac{2(u^2 + 2)^4}{u}\\,du$",
+          B: "$\\displaystyle\\int_1^{\\sqrt{2}} \\frac{2(u^2 + 2)^3}{u}\\,du$",
+          C: "$\\displaystyle\\int_1^2 \\frac{2(u^2 + 2)^3}{u}\\,du$",
+          D: "$\\displaystyle\\int_1^{\\sqrt{2}} \\frac{(u^2 + 2)^3}{u^2}\\,du$"
+        },
+        correct: "B",
+        steps: [
+          "From $u^2 = e^x - 2$, we have $e^x = u^2 + 2$ and $2u\\frac{du}{dx} = e^x \\implies dx = \\frac{2u}{e^x}\\,du$.",
+          "Substitute and cancel one power of $e^x$: $\\frac{e^{4x}}{u^2}\\cdot\\frac{2u}{e^x}\\,du = \\frac{2e^{3x}}{u}\\,du = \\frac{2(u^2 + 2)^3}{u}\\,du$.",
+          "Change limits: $x = \\ln 3 \\implies u^2 = 3 - 2 = 1 \\implies u = 1$; $x = \\ln 4 \\implies u^2 = 4 - 2 = 2 \\implies u = \\sqrt{2}$."
+        ],
+        misconceptions: [
+          { opt: "A", text: "Replacing $e^{4x}$ with $(u^2 + 2)^4$ without cancelling one $e^x$ from $dx = \\frac{2u}{e^x}\\,du$." },
+          { opt: "C", text: "Using the values of $u^2$ ($1$ and $2$) as the limits instead of square-rooting to get $u = \\sqrt{2}$." },
+          { opt: "D", text: "Differentiating $u^2$ as $1$ instead of $2u$." }
+        ]
+      },
+      {
+        number: 10,
+        focus: "Challenge • Trigonometric Substitution $x = 3\\sin u$",
+        difficulty: "Level 10 • Challenge",
+        diffClass: "diff-challenge",
+        prompt: "Using the substitution $x = 3\\sin u$ to find $\\displaystyle\\int \\frac{1}{x^2\\sqrt{9 - x^2}}\\,dx$, what is the simplified integral in $u$ and the final result in terms of $x$?",
+        options: {
+          A: "$\\dfrac{1}{3}\\displaystyle\\int \\csc^2 u\\,du = -\\dfrac{\\sqrt{9 - x^2}}{3x} + c$",
+          B: "$\\dfrac{1}{9}\\displaystyle\\int \\csc^2 u\\,du = -\\dfrac{x}{9\\sqrt{9 - x^2}} + c$",
+          C: "$\\dfrac{1}{9}\\displaystyle\\int \\csc^2 u\\,du = -\\dfrac{\\sqrt{9 - x^2}}{9x} + c$",
+          D: "$\\dfrac{1}{9}\\displaystyle\\int \\sec^2 u\\,du = \\dfrac{\\sqrt{9 - x^2}}{9x} + c$"
+        },
+        correct: "C",
+        steps: [
+          "Let $x = 3\\sin u \\implies dx = 3\\cos u\\,du$, $x^2 = 9\\sin^2 u$, and $\\sqrt{9 - x^2} = \\sqrt{9(1 - \\sin^2 u)} = 3\\cos u$.",
+          "Substitute: $\\int \\frac{3\\cos u}{(9\\sin^2 u)(3\\cos u)}\\,du = \\frac{1}{9}\\int \\csc^2 u\\,du = -\\frac{1}{9}\\cot u + c$.",
+          "From $\\sin u = \\frac{x}{3}$ (Opposite $= x$, Hypotenuse $= 3$), Adjacent $= \\sqrt{9 - x^2}$, so $\\cot u = \\frac{\\sqrt{9 - x^2}}{x}$, giving $-\\frac{\\sqrt{9 - x^2}}{9x} + c$."
+        ],
+        misconceptions: [
+          { opt: "A", text: "Forgetting to square the $3$ in $x^2 = (3\\sin u)^2 = 9\\sin^2 u$." },
+          { opt: "B", text: "Using $\\tan u = \\frac{x}{\\sqrt{9 - x^2}}$ instead of $\\cot u = \\frac{\\sqrt{9 - x^2}}{x}$." },
+          { opt: "D", text: "Confusing $\\frac{1}{\\sin^2 u} = \\csc^2 u$ with $\\sec^2 u$." }
+        ],
+        diagram: `
+          <svg width="230" height="92" viewBox="0 0 230 92" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="25,75 155,75 155,15" fill="#eef2ff" stroke="#4f46e5" stroke-width="2.2"/>
+            <rect x="143" y="63" width="12" height="12" fill="none" stroke="#4f46e5" stroke-width="1.6"/>
+            <path d="M 55,75 A 30,30 0 0,0 52,62" fill="none" stroke="#0ea5e9" stroke-width="2"/>
+            <text x="60" y="71" font-size="12" font-weight="bold" fill="#0369a1">u</text>
+            <text x="78" y="38" font-size="13" font-weight="bold" fill="#0f172a">3</text>
+            <text x="163" y="50" font-size="13" font-weight="bold" fill="#0f172a">x</text>
+            <text x="62" y="89" font-size="12" font-weight="bold" fill="#047857">√(9 − x²)</text>
+          </svg>
+        `
+      }
+    ];
+
+    let currentIndex = 0;
+    let selectedOption = null;
+    let isRevealed = false;
+    const revealedQuestions = new Set();
+
+    // DOM Elements
+    const progressPills = document.getElementById('progressPills');
+    const qNumberLabel = document.getElementById('qNumberLabel');
+    const qFocusBadge = document.getElementById('qFocusBadge');
+    const qDifficultyBadge = document.getElementById('qDifficultyBadge');
+    const questionPrompt = document.getElementById('questionPrompt');
+    const optionsGrid = document.getElementById('optionsGrid');
+    const solutionPanel = document.getElementById('solutionPanel');
+    const solutionSteps = document.getElementById('solutionSteps');
+    const misconceptionBox = document.getElementById('misconceptionBox');
+    const diagramWrapper = document.getElementById('diagramWrapper');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const revealBtn = document.getElementById('revealBtn');
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
+    const fullscreenText = document.getElementById('fullscreenText');
+
+    function renderPills() {
+      progressPills.innerHTML = '';
+      questions.forEach((q, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'pill';
+        if (idx === currentIndex) btn.classList.add('active');
+        else if (revealedQuestions.has(idx)) btn.classList.add('completed');
+        btn.textContent = q.number;
+        btn.title = `Go to Question ${q.number}`;
+        btn.addEventListener('click', () => {
+          currentIndex = idx;
+          selectedOption = null;
+          isRevealed = false;
+          renderQuestion();
+        });
+        progressPills.appendChild(btn);
+      });
+    }
+
+    function renderQuestion() {
+      const q = questions[currentIndex];
+
+      renderPills();
+
+      qNumberLabel.textContent = `Question ${q.number} of ${questions.length}`;
+      qFocusBadge.textContent = q.focus;
+      qDifficultyBadge.textContent = q.difficulty;
+      qDifficultyBadge.className = `difficulty-badge ${q.diffClass}`;
+      questionPrompt.innerHTML = q.prompt;
+
+      // Render Options A, B, C, D
+      optionsGrid.innerHTML = '';
+      ['A', 'B', 'C', 'D'].forEach(letter => {
+        const card = document.createElement('div');
+        card.className = 'option-card';
+        card.dataset.letter = letter;
+
+        if (selectedOption === letter && !isRevealed) {
+          card.classList.add('selected');
+        }
+
+        if (isRevealed) {
+          if (letter === q.correct) {
+            card.classList.add('correct-revealed');
+          } else {
+            card.classList.add('dimmed');
+          }
+        }
+
+        card.innerHTML = `
+          <div class="option-letter">${letter}</div>
+          <div class="option-math">${q.options[letter]}</div>
+          <span class="correct-badge">✓ Correct</span>
+        `;
+
+        card.addEventListener('click', () => {
+          if (!isRevealed) {
+            selectedOption = selectedOption === letter ? null : letter;
+            renderQuestion();
+          }
+        });
+
+        optionsGrid.appendChild(card);
+      });
+
+      // Render Worked Solution
+      solutionSteps.innerHTML = q.steps.map((step, i) => `<li><strong>Step ${i + 1}:</strong> ${step}</li>`).join('');
+      misconceptionBox.innerHTML = q.misconceptions.map(m => `
+        <div class="misconception-item">
+          <span class="misconception-tag">${m.opt}:</span>
+          <span>${m.text}</span>
+        </div>
+      `).join('');
+
+      if (q.diagram) {
+        diagramWrapper.style.display = 'flex';
+        diagramWrapper.innerHTML = q.diagram;
+      } else {
+        diagramWrapper.style.display = 'none';
+        diagramWrapper.innerHTML = '';
+      }
+
+      if (isRevealed) {
+        solutionPanel.classList.add('visible');
+        revealBtn.textContent = 'Hide Answer';
+      } else {
+        solutionPanel.classList.remove('visible');
+        revealBtn.textContent = 'Reveal Answer';
+      }
+
+      prevBtn.disabled = currentIndex === 0;
+      nextBtn.disabled = currentIndex === questions.length - 1;
+
+      if (window.MathJax && window.MathJax.typesetPromise) {
+        window.MathJax.typesetPromise();
+      }
+    }
+
+    function toggleReveal() {
+      isRevealed = !isRevealed;
+      if (isRevealed) {
+        revealedQuestions.add(currentIndex);
+      }
+      renderQuestion();
+    }
+
+    function goNext() {
+      if (currentIndex < questions.length - 1) {
+        currentIndex++;
+        selectedOption = null;
+        isRevealed = false;
+        renderQuestion();
+      }
+    }
+
+    function goPrev() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        selectedOption = null;
+        isRevealed = false;
+        renderQuestion();
+      }
+    }
+
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen().catch(() => {});
+      }
+    }
+
+    document.addEventListener('fullscreenchange', () => {
+      fullscreenText.textContent = document.fullscreenElement ? 'Exit Full Screen' : 'Full Screen';
+    });
+
+    revealBtn.addEventListener('click', toggleReveal);
+    nextBtn.addEventListener('click', goNext);
+    prevBtn.addEventListener('click', goPrev);
+    fullscreenBtn.addEventListener('click', toggleFullScreen);
+
+    // Keyboard Shortcuts for Classroom Use
+    document.addEventListener('keydown', (e) => {
+      if (e.code === 'Space' || e.key === 'r' || e.key === 'R') {
+        e.preventDefault();
+        toggleReveal();
+      } else if (e.code === 'ArrowRight') {
+        goNext();
+      } else if (e.code === 'ArrowLeft') {
+        goPrev();
+      } else if (e.key === 'f' || e.key === 'F') {
+        toggleFullScreen();
+      }
+    });
+
+    window.addEventListener('load', () => {
+      renderQuestion();
+    });
+  </script>
+</body>
+</html>
